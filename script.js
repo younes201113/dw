@@ -11,26 +11,7 @@ const state = {
 };
 
 // DOM Elements
-const elements = {
-    loading: document.getElementById('loading'),
-    sidebar: document.getElementById('sidebar'),
-    menuToggle: document.getElementById('menuToggle'),
-    closeMenu: document.getElementById('closeMenu'),
-    searchInput: document.getElementById('searchInput'),
-    searchBtn: document.getElementById('searchBtn'),
-    loginBtn: document.getElementById('loginBtn'),
-    loginModal: document.getElementById('loginModal'),
-    loginForm: document.getElementById('loginForm'),
-    closeModal: document.querySelector('.close-modal'),
-    contentGrid: document.getElementById('contentGrid'),
-    pageTitle: document.getElementById('pageTitle'),
-    sortSelect: document.getElementById('sortSelect'),
-    activeFilters: document.getElementById('activeFilters'),
-    pagination: document.getElementById('pagination'),
-    homeLogo: document.getElementById('homeLogo'),
-    itemModal: document.getElementById('itemModal'),
-    registerLink: document.getElementById('registerLink')
-};
+let elements = {};
 
 // البيانات الوهمية المعدلة
 const sampleData = {
@@ -96,7 +77,7 @@ const sampleData = {
             description: "استمتع بأسرع سباقات السيارات مع جرافيك واقعي وأكثر من 50 سيارة مختلفة",
             type: "games",
             category: "racing",
-            image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w-400&h=300&fit=crop",
+            image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop",
             rating: 4.8,
             downloads: "2.3M",
             size: "250MB",
@@ -333,170 +314,135 @@ const sampleData = {
     ]
 };
 
+// دالة تهيئة العناصر DOM
+function initElements() {
+    elements = {
+        loading: document.getElementById('loading'),
+        sidebar: document.getElementById('sidebar'),
+        menuToggle: document.getElementById('menuToggle'),
+        closeMenu: document.getElementById('closeMenu'),
+        searchInput: document.getElementById('searchInput'),
+        searchBtn: document.getElementById('searchBtn'),
+        loginBtn: document.getElementById('loginBtn'),
+        loginModal: document.getElementById('loginModal'),
+        loginForm: document.getElementById('loginForm'),
+        closeModal: document.querySelector('.close-modal'),
+        contentGrid: document.getElementById('contentGrid'),
+        pageTitle: document.getElementById('pageTitle'),
+        sortSelect: document.getElementById('sortSelect'),
+        activeFilters: document.getElementById('activeFilters'),
+        pagination: document.getElementById('pagination'),
+        homeLogo: document.getElementById('homeLogo'),
+        itemModal: document.getElementById('itemModal'),
+        registerLink: document.getElementById('registerLink')
+    };
+}
+
 // دالة إخفاء شاشة التحميل
 function hideLoading() {
     setTimeout(() => {
-        elements.loading.style.opacity = '0';
-        setTimeout(() => {
-            elements.loading.style.display = 'none';
-        }, 300);
-    }, 1000);
-}
-
-// تهيئة التطبيق
-function initApp() {
-    console.log('جاري تهيئة التطبيق...');
-    
-    // إخفاء شاشة التحميل
-    hideLoading();
-    
-    // تحميل البيانات الأولية
-    renderContent();
-    
-    // إضافة المستمعين للأحداث
-    setupEventListeners();
-    
-    // فتح القائمة الجانبية تلقائياً على الشاشات الكبيرة
-    if (window.innerWidth > 768) {
-        elements.sidebar.classList.add('active');
-    }
-}
-
-// إعداد المستمعين للأحداث
-function setupEventListeners() {
-    // زر القائمة الجانبية
-    elements.menuToggle.addEventListener('click', () => {
-        elements.sidebar.classList.toggle('active');
-    });
-    
-    // زر إغلاق القائمة
-    elements.closeMenu.addEventListener('click', () => {
-        elements.sidebar.classList.remove('active');
-    });
-    
-    // النقر على الشعار للرجوع للرئيسية
-    elements.homeLogo.addEventListener('click', () => {
-        state.currentType = 'all';
-        state.currentFilter = 'all';
-        state.activeFilters = [];
-        state.searchQuery = '';
-        state.currentPage = 1;
-        elements.searchInput.value = '';
-        renderContent();
-        elements.sidebar.classList.remove('active');
-    });
-    
-    // البحث
-    elements.searchBtn.addEventListener('click', performSearch);
-    elements.searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            performSearch();
+        if (elements.loading) {
+            elements.loading.style.opacity = '0';
+            setTimeout(() => {
+                elements.loading.style.display = 'none';
+            }, 300);
         }
-    });
-    
-    // تسجيل الدخول
-    elements.loginBtn.addEventListener('click', () => {
-        elements.loginModal.classList.add('active');
-    });
-    
-    // إغلاق المودال
-    elements.closeModal.addEventListener('click', () => {
-        elements.loginModal.classList.remove('active');
-    });
-    
-    // إغلاق المودال عند النقر خارج المحتوى
-    elements.loginModal.addEventListener('click', (e) => {
-        if (e.target === elements.loginModal) {
-            elements.loginModal.classList.remove('active');
-        }
-    });
-    
-    // تسجيل الدخول
-    elements.loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        
-        // محاكاة تسجيل الدخول
-        state.currentUser = {
-            name: "مستخدم",
-            email: email
-        };
-        
-        elements.loginBtn.innerHTML = '<i class="fas fa-user"></i> <span>حسابي</span>';
-        elements.loginModal.classList.remove('active');
-        showNotification('تم تسجيل الدخول بنجاح!', 'success');
-    });
-    
-    // التسجيل
-    elements.registerLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        showNotification('سيتم تفعيل التسجيل قريباً', 'info');
-    });
-    
-    // التصنيف
-    elements.sortSelect.addEventListener('change', (e) => {
-        state.currentSort = e.target.value;
-        renderContent();
-    });
-    
-    // القائمة الجانبية
-    document.querySelectorAll('.section-title').forEach(title => {
-        title.addEventListener('click', (e) => {
-            const targetId = e.currentTarget.getAttribute('data-target');
-            const submenu = document.getElementById(targetId);
-            const arrow = e.currentTarget.querySelector('.arrow');
-            
-            e.currentTarget.classList.toggle('active');
-            submenu.classList.toggle('active');
-            arrow.style.transform = arrow.style.transform === 'rotate(180deg)' ? '' : 'rotate(180deg)';
-        });
-    });
-    
-    // عناصر القائمة
-    document.querySelectorAll('.submenu a, .quick-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const type = link.getAttribute('data-type');
-            const filter = link.getAttribute('data-filter');
-            
-            if (type === 'popular' || type === 'recent' || type === 'top') {
-                // معالجة الروابط السريعة
-                state.currentSort = type;
-                elements.sortSelect.value = type;
-                renderContent();
-            } else {
-                // معالجة التصنيفات
-                state.currentType = type || 'all';
-                state.currentFilter = filter || 'all';
-                state.activeFilters = [];
-                state.currentPage = 1;
-                
-                // تحديث القائمة النشطة
-                document.querySelectorAll('.submenu a').forEach(a => a.classList.remove('active'));
-                link.classList.add('active');
-                
-                renderContent();
-            }
-            
-            // إغلاق القائمة على الهاتف
-            if (window.innerWidth <= 768) {
-                elements.sidebar.classList.remove('active');
-            }
-        });
-    });
+    }, 800);
 }
 
-// دالة البحث
-function performSearch() {
-    state.searchQuery = elements.searchInput.value.trim();
-    state.currentPage = 1;
-    renderContent();
+// إنشاء إشعار
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+        <span>${message}</span>
+        <button class="close-notification">&times;</button>
+    `;
     
-    if (state.searchQuery) {
-        showNotification(`نتائج البحث عن: "${state.searchQuery}"`, 'info');
+    document.body.appendChild(notification);
+    
+    // إضافة CSS للإشعار إذا لم يكن موجوداً
+    if (!document.querySelector('#notification-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+                border-right: 4px solid #3498db;
+            }
+            .notification-success {
+                border-right-color: #2ecc71;
+            }
+            .notification-error {
+                border-right-color: #e74c3c;
+            }
+            .notification-info {
+                border-right-color: #3498db;
+            }
+            .notification i {
+                font-size: 1.2rem;
+            }
+            .notification-success i { color: #2ecc71; }
+            .notification-error i { color: #e74c3c; }
+            .notification-info i { color: #3498db; }
+            .close-notification {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: #666;
+                margin-right: auto;
+            }
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
     }
+    
+    // إغلاق الإشعار
+    notification.querySelector('.close-notification').addEventListener('click', () => {
+        notification.remove();
+    });
+    
+    // إزالة الإشعار تلقائياً بعد 5 ثواني
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+// توليد النجوم للتقييم
+function generateStars(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    let starsHTML = '';
+    
+    for (let i = 1; i <= 5; i++) {
+        if (i <= fullStars) {
+            starsHTML += '<i class="fas fa-star"></i>';
+        } else if (i === fullStars + 1 && hasHalfStar) {
+            starsHTML += '<i class="fas fa-star-half-alt"></i>';
+        } else {
+            starsHTML += '<i class="far fa-star"></i>';
+        }
+    }
+    
+    return starsHTML;
 }
 
 // تصفية وترتيب البيانات
@@ -688,16 +634,17 @@ window.removeFilter = function(filterType) {
     }
     state.currentPage = 1;
     renderContent();
+    showNotification('تمت إزالة الفلتر', 'info');
 };
 
 // عرض العناصر
 function renderItems(items) {
     if (items.length === 0) {
         elements.contentGrid.innerHTML = `
-            <div class="no-results">
-                <i class="fas fa-search"></i>
-                <h3>لا توجد نتائج</h3>
-                <p>حاول البحث بكلمات أخرى أو إزالة بعض الفلاتر</p>
+            <div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"></i>
+                <h3 style="color: #666; margin-bottom: 10px;">لا توجد نتائج</h3>
+                <p style="color: #999;">حاول البحث بكلمات أخرى أو إزالة بعض الفلاتر</p>
             </div>
         `;
         return;
@@ -736,13 +683,11 @@ function renderItems(items) {
                             <span>${item.rating}</span>
                         </div>
                         <div class="item-downloads">
-                            <i class="fas fa-download"></i>
+                            <i class="fas fa-${isWebsite ? 'eye' : 'download'}"></i>
                             <span>${item.downloads || item.visits}</span>
                         </div>
                     </div>
-                    <div class="item-description">
-                        ${item.description.substring(0, 60)}...
-                    </div>
+                    <p class="item-description">${item.description.substring(0, 60)}...</p>
                     <div class="item-type">
                         ${categoryNames[item.category] || item.category}
                     </div>
@@ -750,8 +695,8 @@ function renderItems(items) {
                         <button class="btn-details" onclick="showItemDetails(${item.id}, '${item.type}')">
                             <i class="fas fa-info-circle"></i> تفاصيل
                         </button>
-                        <button class="btn-download" onclick="downloadItem(${item.id}, '${item.type}')">
-                            <i class="fas fa-download"></i> ${isWebsite ? 'زيارة' : 'تحميل'}
+                        <button class="btn-download" onclick="${isWebsite ? `visitWebsite('${item.url}')` : `downloadItem(${item.id}, '${item.type}')`}">
+                            <i class="fas fa-${isWebsite ? 'external-link-alt' : 'download'}"></i> ${isWebsite ? 'زيارة' : 'تحميل'}
                         </button>
                     </div>
                 </div>
@@ -767,7 +712,10 @@ window.showItemDetails = function(id, type) {
     const items = sampleData[type];
     const item = items.find(i => i.id === id);
     
-    if (!item) return;
+    if (!item) {
+        showNotification('العنصر غير موجود', 'error');
+        return;
+    }
     
     let detailsHTML = `
         <div class="modal-header">
@@ -788,7 +736,7 @@ window.showItemDetails = function(id, type) {
             
             <div class="item-stats">
                 <div class="stat">
-                    <i class="fas fa-download"></i>
+                    <i class="fas fa-${type === 'websites' ? 'eye' : 'download'}"></i>
                     <div class="stat-value">${item.downloads || item.visits}</div>
                     <div class="stat-label">${type === 'websites' ? 'زيارة' : 'تحميل'}</div>
                 </div>
@@ -895,20 +843,39 @@ window.showItemDetails = function(id, type) {
         </div>
     `;
     
-    const modal = document.getElementById('itemModal');
-    modal.querySelector('.item-details').innerHTML = detailsHTML;
-    modal.classList.add('active');
+    elements.itemModal.querySelector('.item-details').innerHTML = detailsHTML;
+    elements.itemModal.classList.add('active');
     
     // إضافة مستمع لإغلاق المودال
-    modal.querySelector('.close-modal').addEventListener('click', () => {
-        modal.classList.remove('active');
+    elements.itemModal.querySelector('.close-modal').addEventListener('click', () => {
+        elements.itemModal.classList.remove('active');
     });
     
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
+    elements.itemModal.addEventListener('click', (e) => {
+        if (e.target === elements.itemModal) {
+            elements.itemModal.classList.remove('active');
         }
     });
 };
 
-// توليد النجوم للتقييم
+// تحميل العنصر
+window.downloadItem = function(id, type) {
+    showNotification('جاري بدء التحميل...', 'info');
+    setTimeout(() => {
+        showNotification('تم بدء التحميل بنجاح', 'success');
+    }, 1000);
+};
+
+// زيارة الموقع
+window.visitWebsite = function(url) {
+    showNotification('جاري الانتقال إلى الموقع...', 'info');
+    setTimeout(() => {
+        window.open(url, '_blank');
+        showNotification('تم فتح الموقع في نافذة جديدة', 'success');
+    }, 500);
+};
+
+// إضافة للمفضلة
+window.addToFavorites = function(id, type) {
+    if (!state.currentUser) {
+        showNotification('يجب تسجيل
