@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل - موقع التحميل العربي</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>جاري التحميل...</p>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <!-- Logo -->
+            <div class="logo" id="homeLogo">
+                <i class="fas fa-download"></i>
+                <h1>تحميل</h1>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="ابحث عن ألعاب، تطبيقات، مواقع...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- User Actions -->
+            <div class="user-actions">
+                <button class="btn-login" id="loginBtn">
+                    <i class="fas fa-user"></i>
+                    <span>تسجيل الدخول</span>
+                </button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-th-list"></i> القائمة</h2>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="menu-categories">
+            <!-- Games Section -->
+            <div class="menu-section">
+                <h3 class="section-title" data-target="games-submenu">
+                    <i class="fas fa-gamepad"></i> الألعاب
+                    <i class="fas fa-chevron-down arrow"></i>
+                </h3>
+                <div class="submenu" id="games-submenu">
+                    <a href="#" data-filter="all" data-type="games">جميع الألعاب</a>
+                    <a href="#" data-filter="action" data-type="games">
+                        <i class="fas fa-fist-raised"></i> أكشن
+                    </a>
+                    <a href="#" data-filter="adventure" data-type="games">
+                        <i class="fas fa-hiking"></i> مغامرات
+                    </a>
+                    <a href="#" data-filter="puzzle" data-type="games">
+                        <i class="fas fa-puzzle-piece"></i> ألغاز
+                    </a>
+                    <a href="#" data-filter="racing" data-type="games">
+                        <i class="fas fa-flag-checkered"></i> سباقات
+                    </a>
+                    <a href="#" data-filter="sports" data-type="games">
+                        <i class="fas fa-futbol"></i> رياضة
+                    </a>
+                    <a href="#" data-filter="apk" data-type="games">
+                        <i class="fab fa-android"></i> APK
+                    </a>
+                </div>
+            </div>
+
+            <!-- Apps Section -->
+            <div class="menu-section">
+                <h3 class="section-title" data-target="apps-submenu">
+                    <i class="fas fa-mobile-alt"></i> التطبيقات
+                    <i class="fas fa-chevron-down arrow"></i>
+                </h3>
+                <div class="submenu" id="apps-submenu">
+                    <a href="#" data-filter="all" data-type="apps">جميع التطبيقات</a>
+                    <a href="#" data-filter="tools" data-type="apps">
+                        <i class="fas fa-tools"></i> أدوات
+                    </a>
+                    <a href="#" data-filter="social" data-type="apps">
+                        <i class="fas fa-users"></i> تواصل اجتماعي
+                    </a>
+                    <a href="#" data-filter="productivity" data-type="apps">
+                        <i class="fas fa-briefcase"></i> إنتاجية
+                    </a>
+                    <a href="#" data-filter="education" data-type="apps">
+                        <i class="fas fa-graduation-cap"></i> تعليم
+                    </a>
+                </div>
+            </div>
+
+            <!-- Websites Section -->
+            <div class="menu-section">
+                <h3 class="section-title" data-target="websites-submenu">
+                    <i class="fas fa-globe"></i> المواقع
+                    <i class="fas fa-chevron-down arrow"></i>
+                </h3>
+                <div class="submenu" id="websites-submenu">
+                    <a href="#" data-filter="all" data-type="websites">جميع المواقع</a>
+                    <a href="#" data-filter="education" data-type="websites">
+                        <i class="fas fa-book"></i> تعليمية
+                    </a>
+                    <a href="#" data-filter="entertainment" data-type="websites">
+                        <i class="fas fa-film"></i> ترفيه
+                    </a>
+                    <a href="#" data-filter="shopping" data-type="websites">
+                        <i class="fas fa-shopping-cart"></i> تسوق
+                    </a>
+                    <a href="#" data-filter="tools" data-type="websites">
+                        <i class="fas fa-wrench"></i> أدوات
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links">
+                <h3><i class="fas fa-link"></i> روابط سريعة</h3>
+                <a href="#" class="quick-link" data-type="popular">
+                    <i class="fas fa-fire"></i> الأكثر شعبية
+                </a>
+                <a href="#" class="quick-link" data-type="recent">
+                    <i class="fas fa-clock"></i> حديث الإضافة
+                </a>
+                <a href="#" class="quick-link" data-type="top">
+                    <i class="fas fa-star"></i> الأعلى تقييماً
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Title -->
+        <div class="page-title">
+            <h2 id="pageTitle">جميع المحتويات</h2>
+            <div class="sort-options">
+                <select id="sortSelect">
+                    <option value="recent">الأحدث</option>
+                    <option value="popular">الأكثر شعبية</option>
+                    <option value="rating">الأعلى تقييماً</option>
+                    <option value="name">حسب الإسم</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters" id="activeFilters">
+            <!-- Filters will be added dynamically -->
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid" id="contentGrid">
+            <!-- Items will be loaded here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be added dynamically -->
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user"></i> تسجيل الدخول</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> كلمة المرور</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> دخول
+                    </button>
+                </form>
+                <div class="social-login">
+                    <p>أو الدخول باستخدام:</p>
+                    <button class="btn-google">
+                        <i class="fab fa-google"></i> جوجل
+                    </button>
+                    <button class="btn-facebook">
+                        <i class="fab fa-facebook"></i> فيسبوك
+                    </button>
+                </div>
+                <div class="register-link">
+                    <p>ليس لديك حساب؟ <a href="#" id="registerLink">سجل الآن</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Details Modal -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content item-details">
+            <!-- Item details will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-download"></i> تحميل</h3>
+                <p>أكبر منصة عربية لتحميل الألعاب والتطبيقات والمواقع المفيدة</p>
+            </div>
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <a href="#">الألعاب</a>
+                <a href="#">التطبيقات</a>
+                <a href="#">المواقع</a>
+                <a href="#">اتصل بنا</a>
+            </div>
+            <div class="footer-section">
+                <h3>تابعنا</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 تحميل. جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
